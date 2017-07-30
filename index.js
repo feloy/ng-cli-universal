@@ -1,19 +1,19 @@
-// ./index.js
 require('zone.js/dist/zone-node');
 require('reflect-metadata');
 const fs = require('fs');
-const { AppModuleNgFactory } = require('./dist/main.bundle');
+const { AppServerModuleNgFactory } = require('./dist-ssr/main.bundle');
 const { renderModuleFactory } = require('@angular/platform-server');
-renderModuleFactory(AppModuleNgFactory, {
+
+renderModuleFactory(AppServerModuleNgFactory, {
     url: '/',
-    document: '<app-root></app-root>'
+    document: fs.readFileSync('dist/index.html', 'utf8')
 }).then(html => {
-    fs.writeFileSync('dist/index.html', html);
+    fs.writeFileSync('dist-ssr/index.html', html);
 });
 
-renderModuleFactory(AppModuleNgFactory, {
+renderModuleFactory(AppServerModuleNgFactory, {
     url: '/page1',
-    document: '<app-root></app-root>'
+    document: fs.readFileSync('dist/index.html', 'utf8')
 }).then(html => {
-    fs.writeFileSync('dist/page1', html);
+    fs.writeFileSync('dist-ssr/page1', html);
 });
